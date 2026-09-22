@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lupify.github.io/lupin.github.io/sitemap.xml
+Sitemap: https://lupify.github.io/sitemap.xml

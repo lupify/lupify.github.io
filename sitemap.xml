@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://lupify.github.io/lupin.github.io/</loc>
+    <loc>https://lupify.github.io/</loc>
     <lastmod>2026-09-22</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://lupify.github.io/lupin.github.io/research.html</loc>
+    <loc>https://lupify.github.io/research.html</loc>
     <lastmod>2026-09-22</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://lupify.github.io/lupin.github.io/resume.html</loc>
+    <loc>https://lupify.github.io/resume.html</loc>
     <lastmod>2026-09-22</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://lupify.github.io/lupin.github.io/projects.html</loc>
+    <loc>https://lupify.github.io/about.html</loc>
+    <lastmod>2026-09-22</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lupify.github.io/projects.html</loc>
     <lastmod>2026-09-22</lastmod>
     <priority>0.6</priority>
   </url>
