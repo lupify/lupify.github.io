@@ -3,8 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Projects &mdash; Lenny Lupin-Jimenez</title>
-<meta name="description" content="Things Lenny Lupin-Jimenez builds outside of research &mdash; 3D-printable electron orbitals and other side projects.">
+<title>Projects &mdash; Leonard (Lenny) Lupin-Jimenez</title>
+<meta name="description" content="Things Leonard (Lenny) Lupin-Jimenez builds outside of research — 3D-printable electron orbitals, Game of Life sculptures, and browser fluid solvers.">
+
+<link rel="canonical" href="https://lupify.github.io/lupin.github.io/projects.html">
+
+<!-- Link previews (Slack, LinkedIn, iMessage) and machine identity resolution. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Leonard (Lenny) Lupin-Jimenez">
+<meta property="og:title" content="Projects — Leonard (Lenny) Lupin-Jimenez">
+<meta property="og:description" content="Things Leonard (Lenny) Lupin-Jimenez builds outside of research — 3D-printable electron orbitals, Game of Life sculptures, and browser fluid solvers.">
+<meta property="og:url" content="https://lupify.github.io/lupin.github.io/projects.html">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Projects — Leonard (Lenny) Lupin-Jimenez">
+<meta name="twitter:description" content="Things Leonard (Lenny) Lupin-Jimenez builds outside of research — 3D-printable electron orbitals, Game of Life sculptures, and browser fluid solvers.">
 <meta name="color-scheme" content="dark light">
 
 <!-- Set the theme before first paint: stored choice > system preference > dark. -->
@@ -102,6 +115,22 @@
   <div class="wrap">
     <div class="cards">
       <article class="card reveal">
+        <p class="card__meta">2026</p>
+        <h3>The background of this site</h3>
+        <p class="excerpt">Four PDE solvers running live behind the text, on the CPU, in
+           dependency-free JavaScript. The turbulence field integrates the 2D Navier&ndash;Stokes
+           equations in vorticity&ndash;streamfunction form, inverting the Poisson equation each
+           step with a multigrid V-cycle and advecting with a monotonicity-limited MacCormack
+           scheme; the others are shallow water on a torus, Rayleigh&ndash;B&eacute;nard convection,
+           and Conway's Game of Life. Stochastically forced, resolution budgeted per device, and
+           masked so it stays behind the words rather than competing with them. Pick one from the
+           menu at the top of any page.</p>
+        <p class="card__tags"><span class="tag">JavaScript</span> <span class="tag">Numerical methods</span> <span class="tag">Multigrid</span> <span class="tag">Canvas</span></p>
+        <div class="card__foot">
+          <a href="https://github.com/lupify/lupin.github.io" target="_blank" rel="noopener">Source</a>
+        </div>
+      </article>
+      <article class="card reveal">
         <p class="card__meta">2025</p>
         <h3>Electron orbital STL generator</h3>
         <p class="excerpt">Solves the hydrogen wavefunction for any valid set of quantum numbers (<i>n</i>, <i>l</i>, <i>m</i>) and turns the result into a 3D-printable solid. Isosurfaces of the real part of the wavefunction, with optional Gaussian smoothing, automatic scaling for the print bed, quantum-number labels and an &Aring;ngstr&ouml;m scale bar. The printed models come out print-in-place, on a base.</p>
@@ -129,7 +158,7 @@
 
 <div class="wrap">
   <footer>
-    <span>Hosted on GitHub Pages</span>
+    <span>Last updated <time datetime="2026-09-22">September 2026</time> &middot; built by hand, hosted on GitHub Pages</span>
   </footer>
 </div>
 
