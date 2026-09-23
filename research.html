@@ -55,6 +55,18 @@
     } catch (e) {}
     document.documentElement.dataset.anim = v;
   })();
+
+  // Background intensity, as a multiplier on the contrast-budgeted default.
+  // Set before first paint too, so the field never appears at one strength
+  // and then jumps to the visitor's.
+  (function () {
+    var v = '1';
+    try {
+      var stored = parseFloat(localStorage.getItem('bgLevel'));
+      if (isFinite(stored) && stored >= 0.2 && stored <= 2) v = String(stored);
+    } catch (e) {}
+    document.documentElement.dataset.bgLevel = v;
+  })();
 </script>
 
 <!-- Analytics: GoatCounter, no cookies and no consent banner needed.  Counts
@@ -65,7 +77,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=42">
+<link rel="stylesheet" href="styles.css?v=43">
 </head>
 <body>
 
@@ -92,6 +104,11 @@
         <option value="convection">Convection</option>
         <option value="life">Conway's Life</option>
       </select>
+    </label>
+    <label class="simpick simpick--level">
+      <span class="simpick__label">Intensity:</span>
+      <input class="simlevel" id="sim-level" type="range"
+             min="0.2" max="2" step="0.05" value="1">
     </label>
     <span class="bar" aria-hidden="true"></span>
     <button class="toggle" id="motion-toggle" type="button" aria-label="Pause background animation">
@@ -319,7 +336,7 @@
 
 </main>
 
-<script src="site.js?v=41" defer></script>
-<script src="background.js?v=39" defer></script>
+<script src="site.js?v=42" defer></script>
+<script src="background.js?v=40" defer></script>
 </body>
 </html>

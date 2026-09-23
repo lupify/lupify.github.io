@@ -6,10 +6,23 @@
 
   var root = document.documentElement;
 
+  // Theme changes cross over rather than cut. The transition lives behind an
+  // attribute that is only set while a change is in flight: left on, it would
+  // put a second's lag on every hover and on the first paint as well.
+  var THEME_SHIFT_MS = 1000, shiftTimer = 0;
+  function armThemeShift() {
+    root.setAttribute('data-theme-shift', '');
+    clearTimeout(shiftTimer);
+    shiftTimer = setTimeout(function () {
+      root.removeAttribute('data-theme-shift');
+    }, THEME_SHIFT_MS);
+  }
+
   var theme = document.getElementById('theme-toggle');
   if (theme) {
     theme.addEventListener('click', function () {
       var next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      armThemeShift();
       root.dataset.theme = next;
       try { localStorage.setItem('theme', next); } catch (e) {}
     });
@@ -18,9 +31,27 @@
   // Follow the OS while the visitor hasn't picked a side themselves.
   try {
     window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function (e) {
-      if (!localStorage.getItem('theme')) root.dataset.theme = e.matches ? 'light' : 'dark';
+      if (!localStorage.getItem('theme')) {
+        armThemeShift();
+        root.dataset.theme = e.matches ? 'light' : 'dark';
+      }
     });
   } catch (e) {}
+
+  // Background intensity. background.js watches data-bg-level, the same way it
+  // watches the theme and the pause state.
+  var level = document.getElementById('sim-level');
+  if (level) {
+    var showLevel = function () {
+      var v = root.dataset.bgLevel || '1';
+      if (level.value !== v) level.value = v;
+    };
+    showLevel();
+    level.addEventListener('input', function () {
+      root.dataset.bgLevel = level.value;
+      try { localStorage.setItem('bgLevel', level.value); } catch (e) {}
+    });
+  }
 
   // Background animation toggle. Only present when the simulation is enabled.
   var motion = document.getElementById('motion-toggle');

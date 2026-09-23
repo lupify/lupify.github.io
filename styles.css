@@ -432,3 +432,50 @@ footer {
 @media (max-width: 760px) {
   .about__stack { max-width: 280px; margin-inline: auto; }
 }
+
+/* ---------- background intensity slider ---------- */
+.simpick--level { gap: .5rem; }
+.simlevel {
+  appearance: none; -webkit-appearance: none;
+  width: 5.5rem; height: 1rem;
+  background: transparent; cursor: pointer; margin: 0;
+}
+.simlevel::-webkit-slider-runnable-track {
+  height: 3px; border-radius: 999px;
+  background: var(--line-strong);
+}
+.simlevel::-moz-range-track {
+  height: 3px; border-radius: 999px;
+  background: var(--line-strong);
+}
+.simlevel::-webkit-slider-thumb {
+  appearance: none; -webkit-appearance: none;
+  width: 11px; height: 11px; margin-top: -4px;
+  border-radius: 50%;
+  background: var(--muted);
+  border: 1px solid var(--line-strong);
+}
+.simlevel::-moz-range-thumb {
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: var(--muted);
+  border: 1px solid var(--line-strong);
+}
+.simlevel:hover::-webkit-slider-thumb { background: var(--text); }
+.simlevel:hover::-moz-range-thumb { background: var(--text); }
+.simlevel:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 620px) { .simlevel { width: 4.25rem; } }
+
+/* ---------- theme cross-fade ----------
+   Armed by site.js only while a theme change is in flight, so it costs
+   nothing at any other moment. Opacity is deliberately absent: the canvas
+   drives its own, and background.js eases the palette itself over the same
+   second, so the field crosses with the page rather than snapping. */
+html[data-theme-shift],
+html[data-theme-shift] *,
+html[data-theme-shift] *::before,
+html[data-theme-shift] *::after {
+  transition: background-color .9s ease, color .9s ease,
+              border-color .9s ease, fill .9s ease,
+              stroke .9s ease, box-shadow .9s ease;
+}

@@ -905,7 +905,7 @@
       },
 
       render: function () {
-        var alpha = palette.alpha * (palette === PALETTE.light ? ALPHA_LIGHT : ALPHA_DARK);
+        var alpha = palette.alpha * (ALPHA_DARK + (ALPHA_LIGHT - ALPHA_DARK) * palette.mix);
         var edgeCol = palette.edge, edge = palette.strength;
 
         // Cells are discrete, so the field can only be shifted by whole rows --
@@ -995,13 +995,64 @@
   var POW = new Float32Array(256);
   for (var pi = 0; pi < 256; pi++) POW[pi] = Math.pow(pi / 255, 1.35);
 
-  var palette = PALETTE.dark;
-  function readTheme() {
-    palette = document.documentElement.dataset.theme === 'light' ? PALETTE.light : PALETTE.dark;
+  // What the renderer actually reads is a blend of the two themes rather than
+  // one of them.  Switching theme eases the field across over the same second
+  // the CSS takes, instead of cutting to the new colours while the page is
+  // still crossing.  `mix` carries the blend position for the one place that
+  // needs to know which side it is on.
+  //
+  // `gain` is the toolbar slider.  1 is the contrast-budgeted default the rest
+  // of this file was tuned against; above it the field is louder than the text
+  // was measured for, which is the visitor's call to make.
+  var THEME_MS = 1000;
+  var themeTarget = 0, themeNow = 0;          // 0 = dark, 1 = light
+  var gain = 1;
+  var palette = { pos: [0, 0, 0], neg: [0, 0, 0], edge: [0, 0, 0],
+                  alpha: 0, strength: 0, mix: 0 };
+
+  function applyPalette() {
+    var t = themeNow * themeNow * (3 - 2 * themeNow);
+    var d = PALETTE.dark, l = PALETTE.light;
+    for (var c = 0; c < 3; c++) {
+      palette.pos[c]  = d.pos[c]  + (l.pos[c]  - d.pos[c])  * t;
+      palette.neg[c]  = d.neg[c]  + (l.neg[c]  - d.neg[c])  * t;
+      palette.edge[c] = d.edge[c] + (l.edge[c] - d.edge[c]) * t;
+    }
+    palette.alpha    = (d.alpha    + (l.alpha    - d.alpha)    * t) * gain;
+    palette.strength = (d.strength + (l.strength - d.strength) * t) * gain;
+    palette.mix      = t;
   }
+
+  function stepTheme(dt) {
+    if (themeNow === themeTarget) return;
+    var step = dt / (THEME_MS / 1000);
+    themeNow = themeNow < themeTarget ? Math.min(themeTarget, themeNow + step)
+                                      : Math.max(themeTarget, themeNow - step);
+    applyPalette();
+  }
+
+  function readTheme() {
+    themeTarget = document.documentElement.dataset.theme === 'light' ? 1 : 0;
+    // With the loop stopped there is nothing on screen to cross-fade and no
+    // frames coming to do it with, so take the new palette at once.  This is
+    // also what makes the first paint land on the right colours rather than
+    // easing into them.
+    if (!ticking) themeNow = themeTarget;
+    applyPalette();
+  }
+
+  function readGain() {
+    var v = parseFloat(document.documentElement.dataset.bgLevel);
+    gain = isFinite(v) ? Math.min(2, Math.max(0.2, v)) : 1;
+    applyPalette();
+  }
+
   readTheme();
+  readGain();
   new MutationObserver(readTheme).observe(document.documentElement,
     { attributes: true, attributeFilter: ['data-theme'] });
+  new MutationObserver(readGain).observe(document.documentElement,
+    { attributes: true, attributeFilter: ['data-bg-level'] });
 
   var scrollTarget = 0, scrollNow = 0;
   function readScroll() { scrollTarget = window.scrollY * PARALLAX / Math.max(canvas.clientHeight, 1); }
@@ -1244,6 +1295,8 @@
 
     var dt = last ? Math.min((stamp - last) / 1000, 0.1) : 0;
     last = stamp;
+
+    stepTheme(dt);
 
     // Nothing else happens until the new field has been brought up to speed.
     if (pendingWarm > 0) { warmSlice(); return; }
