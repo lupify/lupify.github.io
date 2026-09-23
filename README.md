@@ -1,14 +1,15 @@
-# lupin.github.io
+# lupify.github.io
 
-Personal site for Lenny Lupin-Jimenez — research and publications.
+Personal site for Leonard (Lenny) Lupin-Jimenez: research, projects and CV.
 
-Live at https://lupify.github.io/lupin.github.io/
+Live at https://lupify.github.io/
 
-Four static pages, no build step:
+Five static pages, no build step:
 
 - `index.html` — intro, contacts, and recent research in brief.
 - `research.html` — earlier research positions, with publications.
 - `projects.html` — things built outside of research.
+- `about.html` — photos, background, and what happens away from a screen.
 - `resume.html` — the CV, embedded and downloadable.
 - `styles.css`, `site.js` — shared by all of them.
 
@@ -60,5 +61,7 @@ luminance, not saturation, so the tints are light but strongly saturated.
 
 Press `m` to cycle what is drawn; `#debug` shows a live readout, and
 `#convection`, `#shallow`, `#life` or `#turbulence` force one. The toolbar
-button controls whether anything animates. It runs by default and the choice is
-remembered per visitor.
+button controls whether anything animates. It runs by default, except where the
+system asks for reduced motion, in which case it starts paused and the button
+still starts it. Either way the choice is remembered per visitor and outranks
+the system hint on the next visit.
