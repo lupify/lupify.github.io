@@ -225,6 +225,17 @@ h1, h2, h3 { font-family: var(--font-serif); font-weight: 500; line-height: 1.15
 :root[data-bg-blur="off"] .toggle .i-sharp { display: none; }
 :root[data-bg-blur="off"] .toggle .i-blur  { display: block; }
 
+/* Sharp mode has to turn off two things, not one. The CSS blur filter is the
+   obvious one; the other is the browser smoothing the canvas as it magnifies
+   it, and that is the bigger of the two. The backing store is the simulation
+   grid itself -- 344x208 for turbulence, 47x28 for Life -- stretched across
+   the viewport, so it is being blown up 6x to 44x. Left on auto the upscale
+   is interpolated, which is a blur the filter toggle never touched. */
+:root[data-bg-blur="off"] #field {
+  image-rendering: crisp-edges;   /* older Firefox */
+  image-rendering: pixelated;     /* wins wherever it is supported */
+}
+
 /* ---------- hero ---------- */
 .hero { position: relative; padding-block: clamp(2.5rem, 8vw, 4.5rem) clamp(2.5rem, 7vw, 4.5rem); }
 
