@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Projects &mdash; Leonard (Lenny) Lupin-Jimenez</title>
-<meta name="description" content="Things Leonard (Lenny) Lupin-Jimenez builds outside of research — 3D-printable electron orbitals, Game of Life sculptures, and browser fluid solvers.">
+<meta name="description" content="Things Leonard (Lenny) Lupin-Jimenez builds outside of research — 3D-printable electron orbitals and Game of Life sculptures.">
 
 <link rel="canonical" href="https://lupify.github.io/projects.html">
 
@@ -12,17 +12,17 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Leonard (Lenny) Lupin-Jimenez">
 <meta property="og:title" content="Projects — Leonard (Lenny) Lupin-Jimenez">
-<meta property="og:description" content="Things Leonard (Lenny) Lupin-Jimenez builds outside of research — 3D-printable electron orbitals, Game of Life sculptures, and browser fluid solvers.">
+<meta property="og:description" content="Things Leonard (Lenny) Lupin-Jimenez builds outside of research — 3D-printable electron orbitals and Game of Life sculptures.">
 <meta property="og:url" content="https://lupify.github.io/projects.html">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://lupify.github.io/img/leonard-lupin-jimenez.jpg">
 <meta property="og:image:width" content="640">
-<meta property="og:image:height" content="960">
+<meta property="og:image:height" content="792">
 <meta property="og:image:alt" content="Leonard (Lenny) Lupin-Jimenez">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://lupify.github.io/img/leonard-lupin-jimenez.jpg">
 <meta name="twitter:title" content="Projects — Leonard (Lenny) Lupin-Jimenez">
-<meta name="twitter:description" content="Things Leonard (Lenny) Lupin-Jimenez builds outside of research — 3D-printable electron orbitals, Game of Life sculptures, and browser fluid solvers.">
+<meta name="twitter:description" content="Things Leonard (Lenny) Lupin-Jimenez builds outside of research — 3D-printable electron orbitals and Game of Life sculptures.">
 <meta name="color-scheme" content="dark light">
 
 <!-- Set the theme before first paint: stored choice > system preference > dark. -->
@@ -41,11 +41,15 @@
     }
   })();
 
-  // Animation preference: on unless this visitor has turned it off before.
-  // Set before first paint so the background never starts and then stops.
+  // Animation preference: on, unless the system asks for reduced motion or
+  // this visitor has turned it off before.  Set before first paint so the
+  // background never starts and then stops.  Note that 'off' means paused,
+  // not disabled -- the play button still starts it for anyone who wants it,
+  // and an explicit choice outranks the system hint.
   (function () {
     var v = 'on';
     try {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) v = 'off';
       var stored = localStorage.getItem('anim');
       if (stored === 'on' || stored === 'off') v = stored;
     } catch (e) {}
@@ -61,7 +65,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=41">
+<link rel="stylesheet" href="styles.css?v=42">
 </head>
 <body>
 
@@ -80,7 +84,7 @@
     </nav>
     <span class="bar" aria-hidden="true"></span>
     <label class="simpick">
-      <span class="simpick__label">Background Effect:</span>
+      <span class="simpick__label">Background simulation:</span>
       <select id="sim-select">
         <option value="random">Random</option>
         <option value="turbulence">Turbulence</option>
@@ -120,22 +124,6 @@
 <section class="section" id="projects">
   <div class="wrap">
     <div class="cards">
-      <article class="card reveal">
-        <p class="card__meta">2026</p>
-        <h3>The background of this site</h3>
-        <p class="excerpt">Four PDE solvers running live behind the text, on the CPU, in
-           dependency-free JavaScript. The turbulence field integrates the 2D Navier&ndash;Stokes
-           equations in vorticity&ndash;streamfunction form, inverting the Poisson equation each
-           step with a multigrid V-cycle and advecting with a monotonicity-limited MacCormack
-           scheme; the others are shallow water on a torus, Rayleigh&ndash;B&eacute;nard convection,
-           and Conway's Game of Life. Stochastically forced, resolution budgeted per device, and
-           masked so it stays behind the words rather than competing with them. Pick one from the
-           menu at the top of any page.</p>
-        <p class="card__tags"><span class="tag">JavaScript</span> <span class="tag">Numerical methods</span> <span class="tag">Multigrid</span> <span class="tag">Canvas</span></p>
-        <div class="card__foot">
-          <a href="https://github.com/lupify/lupify.github.io" target="_blank" rel="noopener">Source</a>
-        </div>
-      </article>
       <article class="card reveal">
         <p class="card__meta">2025</p>
         <h3>Electron orbital STL generator</h3>

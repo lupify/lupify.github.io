@@ -17,7 +17,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://lupify.github.io/img/leonard-lupin-jimenez.jpg">
 <meta property="og:image:width" content="640">
-<meta property="og:image:height" content="960">
+<meta property="og:image:height" content="792">
 <meta property="og:image:alt" content="Leonard (Lenny) Lupin-Jimenez">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://lupify.github.io/img/leonard-lupin-jimenez.jpg">
@@ -35,7 +35,10 @@
     "L. Lupin-Jimenez"
   ],
   "url": "https://lupify.github.io/",
-  "email": "mailto:lupified@gmail.com",
+  "email": [
+    "mailto:lupified@gmail.com",
+    "mailto:llupinji@ucsc.edu"
+  ],
   "jobTitle": "Machine Learning Researcher; PhD Candidate in Applied Mathematics",
   "description": "Machine learning researcher building physically consistent deep learning emulators for complex, multiscale, time-dependent systems: turbulence and ocean-atmosphere modeling, generative data assimilation, and equation discovery.",
   "affiliation": {
@@ -92,11 +95,15 @@
     }
   })();
 
-  // Animation preference: on unless this visitor has turned it off before.
-  // Set before first paint so the background never starts and then stops.
+  // Animation preference: on, unless the system asks for reduced motion or
+  // this visitor has turned it off before.  Set before first paint so the
+  // background never starts and then stops.  Note that 'off' means paused,
+  // not disabled -- the play button still starts it for anyone who wants it,
+  // and an explicit choice outranks the system hint.
   (function () {
     var v = 'on';
     try {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) v = 'off';
       var stored = localStorage.getItem('anim');
       if (stored === 'on' || stored === 'off') v = stored;
     } catch (e) {}
@@ -112,7 +119,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=41">
+<link rel="stylesheet" href="styles.css?v=42">
 </head>
 <body>
 
@@ -131,7 +138,7 @@
     </nav>
     <span class="bar" aria-hidden="true"></span>
     <label class="simpick">
-      <span class="simpick__label">Background Effect:</span>
+      <span class="simpick__label">Background simulation:</span>
       <select id="sim-select">
         <option value="random">Random</option>
         <option value="turbulence">Turbulence</option>
@@ -177,14 +184,18 @@
     </p>
 
     <p class="avail">
-      <b>Finishing my PhD in 2027.</b> Open to roles starting June&nbsp;2027 &mdash;
-      on-site, hybrid, or fully remote.
+      <b>Finishing my PhD in 2027.</b> Open to research scientist positions
+      starting June&nbsp;2027 &mdash; on-site, hybrid, or fully remote.
     </p>
 
     <div class="links">
       <a class="btn btn--primary" href="mailto:lupified@gmail.com">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg>
         lupified@gmail.com
+      </a>
+      <a class="btn" href="mailto:llupinji@ucsc.edu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg>
+        llupinji@ucsc.edu
       </a>
       <a class="btn" href="https://www.linkedin.com/in/leonard-lupin-jimenez/" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4v11H3v-11zm7 0h3.83v1.5h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.49 4.78 5.73v5.72h-4v-5.07c0-1.21-.02-2.77-1.79-2.77-1.79 0-2.07 1.32-2.07 2.68v5.16h-4v-11z"/></svg>

@@ -17,7 +17,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://lupify.github.io/img/leonard-lupin-jimenez.jpg">
 <meta property="og:image:width" content="640">
-<meta property="og:image:height" content="960">
+<meta property="og:image:height" content="792">
 <meta property="og:image:alt" content="Leonard (Lenny) Lupin-Jimenez">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://lupify.github.io/img/leonard-lupin-jimenez.jpg">
@@ -41,11 +41,15 @@
     }
   })();
 
-  // Animation preference: on unless this visitor has turned it off before.
-  // Set before first paint so the background never starts and then stops.
+  // Animation preference: on, unless the system asks for reduced motion or
+  // this visitor has turned it off before.  Set before first paint so the
+  // background never starts and then stops.  Note that 'off' means paused,
+  // not disabled -- the play button still starts it for anyone who wants it,
+  // and an explicit choice outranks the system hint.
   (function () {
     var v = 'on';
     try {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) v = 'off';
       var stored = localStorage.getItem('anim');
       if (stored === 'on' || stored === 'off') v = stored;
     } catch (e) {}
@@ -61,7 +65,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=41">
+<link rel="stylesheet" href="styles.css?v=42">
 </head>
 <body>
 
@@ -80,7 +84,7 @@
     </nav>
     <span class="bar" aria-hidden="true"></span>
     <label class="simpick">
-      <span class="simpick__label">Background Effect:</span>
+      <span class="simpick__label">Background simulation:</span>
       <select id="sim-select">
         <option value="random">Random</option>
         <option value="turbulence">Turbulence</option>
@@ -129,6 +133,7 @@
         Download PDF
       </a>
       <a class="btn" href="mailto:lupified@gmail.com">lupified@gmail.com</a>
+          <a class="btn" href="mailto:llupinji@ucsc.edu">llupinji@ucsc.edu</a>
       <a class="btn" href="https://www.linkedin.com/in/leonard-lupin-jimenez/" target="_blank" rel="noopener">LinkedIn</a>
       <a class="btn" href="https://github.com/lupify" target="_blank" rel="noopener">GitHub</a>
       <a class="btn" href="https://orcid.org/0000-0002-5613-3019" target="_blank" rel="noopener">ORCID</a>

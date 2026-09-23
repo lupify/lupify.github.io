@@ -426,3 +426,9 @@ footer {
   .about { grid-template-columns: 1fr; }
   .about__portrait { max-width: 280px; margin-inline: auto; }
 }
+
+/* Two portraits stacked in the About page's image column. */
+.about__stack { display: flex; flex-direction: column; gap: 1rem; }
+@media (max-width: 760px) {
+  .about__stack { max-width: 280px; margin-inline: auto; }
+}
