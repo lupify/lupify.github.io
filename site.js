@@ -12,6 +12,11 @@
   var THEME_SHIFT_MS = 1000, shiftTimer = 0;
   function armThemeShift() {
     root.setAttribute('data-theme-shift', '');
+    // Read a layout property to flush the style change. Without this the
+    // transition and the new colours land in the same recalculation, and the
+    // engine has no before-state with a transition on it to interpolate from,
+    // so it cuts straight to the end.
+    void root.offsetWidth;
     clearTimeout(shiftTimer);
     shiftTimer = setTimeout(function () {
       root.removeAttribute('data-theme-shift');
@@ -38,18 +43,23 @@
     });
   } catch (e) {}
 
-  // Background intensity. background.js watches data-bg-level, the same way it
+  // Background focus. background.js watches data-bg-blur, the same way it
   // watches the theme and the pause state.
-  var level = document.getElementById('sim-level');
-  if (level) {
-    var showLevel = function () {
-      var v = root.dataset.bgLevel || '1';
-      if (level.value !== v) level.value = v;
+  var blur = document.getElementById('blur-toggle');
+  if (blur) {
+    var syncBlur = function () {
+      var on = root.dataset.bgBlur !== 'off';
+      blur.setAttribute('aria-label',
+        on ? 'Sharpen background simulation' : 'Blur background simulation');
     };
-    showLevel();
-    level.addEventListener('input', function () {
-      root.dataset.bgLevel = level.value;
-      try { localStorage.setItem('bgLevel', level.value); } catch (e) {}
+    syncBlur();
+    new MutationObserver(syncBlur).observe(root,
+      { attributes: true, attributeFilter: ['data-bg-blur'] });
+
+    blur.addEventListener('click', function () {
+      var next = root.dataset.bgBlur === 'off' ? 'on' : 'off';
+      root.dataset.bgBlur = next;
+      try { localStorage.setItem('bgBlur', next); } catch (e) {}
     });
   }
 

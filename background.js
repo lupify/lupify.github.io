@@ -94,6 +94,27 @@
     }
   }
 
+  // Blur is what keeps the field reading as a field rather than as pixels, so
+  // it is on by default at the radius each simulation asks for, in units of one
+  // cell.  Off shows the grid as it actually is.  The radius is worked out in
+  // allocate(), which knows the cell size; this only decides whether it gets
+  // applied, so the toggle costs nothing and never reallocates.
+  var blurPx = 0, blurOn = true;
+
+  function applyBlur() {
+    canvas.style.filter = (blurOn && blurPx > 0)
+      ? 'blur(' + blurPx.toFixed(2) + 'px)' : 'none';
+  }
+
+  function readBlur() {
+    blurOn = document.documentElement.dataset.bgBlur !== 'off';
+    applyBlur();
+  }
+
+  readBlur();
+  new MutationObserver(readBlur).observe(document.documentElement,
+    { attributes: true, attributeFilter: ['data-bg-blur'] });
+
   function allocate() {
     var aspect = Math.max(canvas.clientWidth, 1) / Math.max(canvas.clientHeight, 1);
     narrow = window.innerWidth < 760;          // re-read: phones rotate
@@ -123,7 +144,8 @@
     buildMask();
 
     var cellPx = Math.max(canvas.clientWidth, 1) / NX;
-    canvas.style.filter = 'blur(' + (sim.blur * cellPx).toFixed(2) + 'px)';
+    blurPx = sim.blur * cellPx;
+    applyBlur();
     canvas.width = NX; canvas.height = NY;
     img = ctx.createImageData(NX, NY);
     px = img.data;
@@ -1001,12 +1023,8 @@
   // still crossing.  `mix` carries the blend position for the one place that
   // needs to know which side it is on.
   //
-  // `gain` is the toolbar slider.  1 is the contrast-budgeted default the rest
-  // of this file was tuned against; above it the field is louder than the text
-  // was measured for, which is the visitor's call to make.
   var THEME_MS = 1000;
   var themeTarget = 0, themeNow = 0;          // 0 = dark, 1 = light
-  var gain = 1;
   var palette = { pos: [0, 0, 0], neg: [0, 0, 0], edge: [0, 0, 0],
                   alpha: 0, strength: 0, mix: 0 };
 
@@ -1018,8 +1036,8 @@
       palette.neg[c]  = d.neg[c]  + (l.neg[c]  - d.neg[c])  * t;
       palette.edge[c] = d.edge[c] + (l.edge[c] - d.edge[c]) * t;
     }
-    palette.alpha    = (d.alpha    + (l.alpha    - d.alpha)    * t) * gain;
-    palette.strength = (d.strength + (l.strength - d.strength) * t) * gain;
+    palette.alpha    = d.alpha    + (l.alpha    - d.alpha)    * t;
+    palette.strength = d.strength + (l.strength - d.strength) * t;
     palette.mix      = t;
   }
 
@@ -1041,18 +1059,9 @@
     applyPalette();
   }
 
-  function readGain() {
-    var v = parseFloat(document.documentElement.dataset.bgLevel);
-    gain = isFinite(v) ? Math.min(2, Math.max(0.2, v)) : 1;
-    applyPalette();
-  }
-
   readTheme();
-  readGain();
   new MutationObserver(readTheme).observe(document.documentElement,
     { attributes: true, attributeFilter: ['data-theme'] });
-  new MutationObserver(readGain).observe(document.documentElement,
-    { attributes: true, attributeFilter: ['data-bg-level'] });
 
   var scrollTarget = 0, scrollNow = 0;
   function readScroll() { scrollTarget = window.scrollY * PARALLAX / Math.max(canvas.clientHeight, 1); }

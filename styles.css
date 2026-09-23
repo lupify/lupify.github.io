@@ -82,6 +82,15 @@ html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  /* Except the theme cross-fade. That rule exists to stop movement, and a
+     colour fade is not movement -- it is the opposite of the hard flash it
+     replaces. Without this carve-out the blanket !important above cuts the
+     theme change back to an instant switch for anyone with the setting on,
+     which is the same trap that once broke the canvas fade. */
+  html[data-theme-shift],
+  html[data-theme-shift] *,
+  html[data-theme-shift] *::before,
+  html[data-theme-shift] *::after { transition-duration: .9s !important; }
 }
 
 body {
@@ -210,6 +219,11 @@ h1, h2, h3 { font-family: var(--font-serif); font-weight: 500; line-height: 1.15
 :root[data-theme="dark"] .toggle .i-moon { display: none; }
 :root[data-theme="light"] .toggle .i-sun { display: none; }
 :root[data-theme="light"] .toggle .i-moon { display: block; }
+
+:root[data-bg-blur="on"]  .toggle .i-sharp { display: block; }
+:root[data-bg-blur="on"]  .toggle .i-blur  { display: none; }
+:root[data-bg-blur="off"] .toggle .i-sharp { display: none; }
+:root[data-bg-blur="off"] .toggle .i-blur  { display: block; }
 
 /* ---------- hero ---------- */
 .hero { position: relative; padding-block: clamp(2.5rem, 8vw, 4.5rem) clamp(2.5rem, 7vw, 4.5rem); }
@@ -432,39 +446,6 @@ footer {
 @media (max-width: 760px) {
   .about__stack { max-width: 280px; margin-inline: auto; }
 }
-
-/* ---------- background intensity slider ---------- */
-.simpick--level { gap: .5rem; }
-.simlevel {
-  appearance: none; -webkit-appearance: none;
-  width: 5.5rem; height: 1rem;
-  background: transparent; cursor: pointer; margin: 0;
-}
-.simlevel::-webkit-slider-runnable-track {
-  height: 3px; border-radius: 999px;
-  background: var(--line-strong);
-}
-.simlevel::-moz-range-track {
-  height: 3px; border-radius: 999px;
-  background: var(--line-strong);
-}
-.simlevel::-webkit-slider-thumb {
-  appearance: none; -webkit-appearance: none;
-  width: 11px; height: 11px; margin-top: -4px;
-  border-radius: 50%;
-  background: var(--muted);
-  border: 1px solid var(--line-strong);
-}
-.simlevel::-moz-range-thumb {
-  width: 11px; height: 11px;
-  border-radius: 50%;
-  background: var(--muted);
-  border: 1px solid var(--line-strong);
-}
-.simlevel:hover::-webkit-slider-thumb { background: var(--text); }
-.simlevel:hover::-moz-range-thumb { background: var(--text); }
-.simlevel:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-@media (max-width: 620px) { .simlevel { width: 4.25rem; } }
 
 /* ---------- theme cross-fade ----------
    Armed by site.js only while a theme change is in flight, so it costs
