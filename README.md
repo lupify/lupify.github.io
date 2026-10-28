@@ -10,7 +10,7 @@ Five static pages, no build step:
 - `research.html` — earlier research positions, with publications.
 - `projects.html` — things built outside of research.
 - `about.html` — photos, background, and what happens away from a screen.
-- `resume.html` — the CV, embedded and downloadable.
+- `resume.html` — the CV as HTML, with the PDF downloadable.
 - `styles.css`, `site.js` — shared by all of them.
 
 `site.js` swaps `<main>` between pages rather than loading a new document, so
