@@ -490,3 +490,5 @@ html[data-theme-shift] *::after {
 @media (max-width: 760px) {
   .project { grid-template-columns: minmax(0, 1fr); }
 }
+/* More than one image for a project: stacked in the media column. */
+.project__stack { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
