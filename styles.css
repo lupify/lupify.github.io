@@ -499,3 +499,8 @@ html[data-theme-shift] *::after {
 .publist__venue { font-style: italic; }
 /* Page heading with a link sitting on the same line. */
 .titlerow { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; }
+/* In-page jump links under a page heading. */
+.jumplinks { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; margin-top: 1.1rem; font-size: .92rem; }
+.jumplinks a { color: var(--muted); text-decoration: none; }
+.jumplinks a::before { content: "\2193\00a0"; color: var(--accent); }
+.jumplinks a:hover { color: var(--accent); }
