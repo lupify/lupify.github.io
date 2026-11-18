@@ -217,6 +217,21 @@
       '), so changing pages will restart the background simulation.');
   }
 
+  // The page currently showing.  Following an in-page link (#section) also
+  // fires popstate, and so does going Back between two such links; neither is
+  // a page change, and swapping the page for them re-fetched it and scrolled
+  // to the top, undoing the jump.
+  var shownPath = location.pathname;
+
+  // After a swap, land where the URL says: on its #section if it has one,
+  // otherwise at the top.
+  function scrollToTarget(url) {
+    var hash = new URL(url, location.href).hash;
+    var el = hash && document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (el) el.scrollIntoView();
+    else window.scrollTo(0, 0);
+  }
+
   function swapTo(url, push) {
     var token = ++navToken;
     fetch(url, { credentials: 'same-origin' })
@@ -237,7 +252,8 @@
         }
         if (doc.title) document.title = doc.title;
         if (push) history.pushState({ soft: true }, '', url);
-        window.scrollTo(0, 0);
+        shownPath = new URL(url, location.href).pathname;
+        scrollToTarget(url);
         initReveals();
         markCurrentPage();
         trackPageview();          // the provider's own script only sees the first load
@@ -280,5 +296,8 @@
     swapTo(url.href, true);
   });
 
-  window.addEventListener('popstate', function () { swapTo(location.href, false); });
+  window.addEventListener('popstate', function () {
+    if (location.pathname === shownPath) return;   // same page: the browser scrolls
+    swapTo(location.href, false);
+  });
 })();
