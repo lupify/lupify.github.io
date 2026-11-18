@@ -497,3 +497,5 @@ html[data-theme-shift] *::after {
 .publist a { color: var(--text); text-decoration: underline; text-decoration-color: var(--line-strong); }
 .publist a:hover { color: var(--accent); text-decoration-color: currentColor; }
 .publist__venue { font-style: italic; }
+/* Page heading with a link sitting on the same line. */
+.titlerow { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; }
