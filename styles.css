@@ -78,9 +78,7 @@
 /* ---------- base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   /* Except the theme cross-fade. That rule exists to stop movement, and a
      colour fade is not movement -- it is the opposite of the hard flash it
