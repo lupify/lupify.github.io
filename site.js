@@ -269,6 +269,73 @@
       });
   }
 
+  // ---- email links copy the address ---------------------------------------
+  //
+  // A mailto: link hands the visitor to whatever mail client the device has
+  // set up, which on many machines is none at all.  Copying the address is
+  // the more useful default; a short notice says it happened.  If copying is
+  // refused, the link falls back to opening the mail client as before.
+  var toast = null, toastTimer = 0;
+  function notify(msg) {
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.setAttribute('role', 'status');      // read out by screen readers
+      toast.setAttribute('aria-live', 'polite');
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add('is-shown');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('is-shown'); }, 2200);
+  }
+
+  // Copy synchronously first: execCommand runs inside the click itself, so it
+  // either works or reports failure on the spot, in every browser.  The async
+  // Clipboard API is the backup -- on its own it can stall without settling
+  // (seen in headless Chrome), which would leave the click doing nothing.
+  function copySync(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed'; ta.style.top = '0'; ta.style.opacity = '0';
+    var keep = [], sel = window.getSelection();
+    for (var i = 0; sel && i < sel.rangeCount; i++) keep.push(sel.getRangeAt(i));
+    document.body.appendChild(ta); ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (err) {}
+    ta.remove();
+    if (sel) { sel.removeAllRanges(); keep.forEach(function (r) { sel.addRange(r); }); }
+    return ok;
+  }
+
+  function copyText(text) {
+    if (copySync(text)) return Promise.resolve();
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    return Promise.reject(new Error('copy refused'));
+  }
+
+  // Capture phase, so this runs before the page router below sees the click.
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0) return;
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="mailto:"]') : null;
+    if (!a) return;
+    e.preventDefault();
+    // A drag that selected part of the address ends in a click too.  Leave
+    // that selection for the visitor to copy themselves rather than
+    // overwriting it with the whole address.
+    var sel = window.getSelection && window.getSelection();
+    if (sel && !sel.isCollapsed && a.contains(sel.anchorNode)) return;
+    var addr = decodeURIComponent(a.getAttribute('href').slice(7).split('?')[0]);
+    copyText(addr).then(function () {
+      notify(addr + ' copied to clipboard');
+      a.classList.add('is-copied');
+      setTimeout(function () { a.classList.remove('is-copied'); }, 2200);
+      trackEvent('email copied: ' + addr);
+    }, function () {
+      location.href = a.href;
+    });
+  }, true);
+
   document.addEventListener('click', function (e) {
     if (e.defaultPrevented || e.button !== 0) return;
     var a = e.target && e.target.closest ? e.target.closest('a') : null;

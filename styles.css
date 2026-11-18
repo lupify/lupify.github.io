@@ -504,3 +504,20 @@ html[data-theme-shift] *::after {
 .jumplinks a { color: var(--muted); text-decoration: none; }
 .jumplinks a::before { content: "\2193\00a0"; color: var(--accent); }
 .jumplinks a:hover { color: var(--accent); }
+
+/* ---------- "copied to clipboard" notice ---------- */
+.toast {
+  position: fixed; left: 50%; bottom: 1.5rem; z-index: 50;
+  transform: translate(-50%, .5rem);
+  padding: .65rem 1.05rem; border-radius: 999px;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--line-strong); box-shadow: var(--shadow);
+  font-size: .9rem; white-space: nowrap; max-width: calc(100vw - 2rem);
+  opacity: 0; pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.toast.is-shown { opacity: 1; transform: translate(-50%, 0); }
+.btn.is-copied { border-color: var(--accent); color: var(--accent); }
+/* Email buttons: the address can be selected by dragging across it, like
+   ordinary text, instead of the drag picking up the link. */
+a[href^="mailto:"] { user-select: text; -webkit-user-select: text; -webkit-user-drag: none; cursor: copy; }
