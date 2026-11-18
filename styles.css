@@ -521,3 +521,6 @@ html[data-theme-shift] *::after {
 /* Email buttons: the address can be selected by dragging across it, like
    ordinary text, instead of the drag picking up the link. */
 a[href^="mailto:"] { user-select: text; -webkit-user-select: text; -webkit-user-drag: none; cursor: copy; }
+/* A small link sitting after a section heading, e.g. "Publications (more here)". */
+.h2more { font-family: var(--font-sans); font-size: .55em; font-weight: 400; letter-spacing: 0; margin-left: .35em; color: var(--muted); }
+.h2more:hover { color: var(--accent); }
