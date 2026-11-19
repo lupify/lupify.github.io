@@ -1,4 +1,25 @@
 /* ---------- tokens ---------- */
+/* Registered so the theme change can interpolate them once, on :root, and
+   every element that reads them follows in the same frame. See the
+   theme-shift rule further down. */
+@property --bg { syntax: '<color>'; inherits: true; initial-value: #faf6f5; }
+@property --bg-veil { syntax: '<color>'; inherits: true; initial-value: rgba(250,246,245,.78); }
+@property --surface { syntax: '<color>'; inherits: true; initial-value: #fff; }
+@property --surface-2 { syntax: '<color>'; inherits: true; initial-value: #f4eeed; }
+@property --line { syntax: '<color>'; inherits: true; initial-value: #e6dcdb; }
+@property --line-strong { syntax: '<color>'; inherits: true; initial-value: #d6c8c8; }
+@property --text { syntax: '<color>'; inherits: true; initial-value: #241d26; }
+@property --muted { syntax: '<color>'; inherits: true; initial-value: #574d5e; }
+@property --accent { syntax: '<color>'; inherits: true; initial-value: #8f2d45; }
+@property --accent-2 { syntax: '<color>'; inherits: true; initial-value: #5c3d8f; }
+@property --accent-wash { syntax: '<color>'; inherits: true; initial-value: rgba(143,45,69,.09); }
+@property --on-accent { syntax: '<color>'; inherits: true; initial-value: #fff; }
+@property --glow-a { syntax: '<color>'; inherits: true; initial-value: rgba(240,138,168,.30); }
+@property --glow-a0 { syntax: '<color>'; inherits: true; initial-value: rgba(240,138,168,0); }
+@property --glow-b { syntax: '<color>'; inherits: true; initial-value: rgba(171,142,232,.30); }
+@property --glow-b0 { syntax: '<color>'; inherits: true; initial-value: rgba(171,142,232,0); }
+@property --grain { syntax: '<number>'; inherits: true; initial-value: .022; }
+
 :root {
   --bg:          #faf6f5;
   --bg-veil:     rgba(250, 246, 245, .78);
@@ -14,6 +35,7 @@
   --accent:      #8f2d45;
   --accent-2:    #5c3d8f;
   --accent-wash: rgba(143, 45, 69, .09);
+  --on-accent:   #ffffff;
   /* A near-white page loses luminance fast under a dark tint, so the light glow
      is a light, highly saturated one: it shifts hue rather than brightness and
      carries 1.7x the colour of the old maroon at better contrast. Each gradient
@@ -44,6 +66,7 @@
   --accent:      #d4697f;
   --accent-2:    #ab8ede;
   --accent-wash: rgba(212, 105, 127, .12);
+  --on-accent:   #1b1016;
   --glow-a:      rgba(143, 45, 69, .38);
   --glow-a0:     rgba(143, 45, 69, 0);
   --glow-b:      rgba(92, 61, 143, .30);
@@ -85,10 +108,7 @@
      replaces. Without this carve-out the blanket !important above cuts the
      theme change back to an instant switch for anyone with the setting on,
      which is the same trap that once broke the canvas fade. */
-  html[data-theme-shift],
-  html[data-theme-shift] *,
-  html[data-theme-shift] *::before,
-  html[data-theme-shift] *::after { transition-duration: .9s !important; }
+  html[data-theme-shift] { transition-duration: .9s !important; }
 }
 
 body {
@@ -284,10 +304,8 @@ body::after {
   transition: border-color .18s ease, transform .18s ease, color .18s ease;
 }
 .btn:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
-.btn--primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-.btn--primary:hover { color: #fff; filter: brightness(1.08); }
-:root[data-theme="dark"] .btn--primary { color: #1b1016; }
-:root[data-theme="dark"] .btn--primary:hover { color: #1b1016; }
+.btn--primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn--primary:hover { color: var(--on-accent); filter: brightness(1.08); }
 .btn svg { width: .95rem; height: .95rem; flex: none; }
 
 /* ---------- sections ---------- */
@@ -461,14 +479,25 @@ footer {
    nothing at any other moment. Opacity is deliberately absent: the canvas
    drives its own, and background.js eases the palette itself over the same
    second, so the field crosses with the page rather than snapping. */
-html[data-theme-shift],
+/* The theme cross-fade interpolates the colour tokens themselves, once, on
+   the root; every element reads them through var() and so moves in lockstep.
+   The old approach -- a colour transition on every element -- staggered in
+   Safari, which starts a child's inherited-colour transition only after its
+   parent's has begun, so deeply nested text arrived visibly after the
+   background. Element transitions are switched off for the duration so none
+   of them chase the moving tokens either. Browsers without @property swap
+   the tokens in one step, all together. */
+html[data-theme-shift] {
+  transition: --bg .9s ease, --bg-veil .9s ease, --surface .9s ease,
+              --surface-2 .9s ease, --line .9s ease, --line-strong .9s ease,
+              --text .9s ease, --muted .9s ease, --accent .9s ease,
+              --accent-2 .9s ease, --accent-wash .9s ease, --on-accent .9s ease,
+              --glow-a .9s ease, --glow-a0 .9s ease, --glow-b .9s ease,
+              --glow-b0 .9s ease, --grain .9s ease !important;
+}
 html[data-theme-shift] *,
 html[data-theme-shift] *::before,
-html[data-theme-shift] *::after {
-  transition: background-color .9s ease, color .9s ease,
-              border-color .9s ease, fill .9s ease,
-              stroke .9s ease, box-shadow .9s ease;
-}
+html[data-theme-shift] *::after { transition: none !important; }
 
 /* ---------- projects: card on the left, media on the right ---------- */
 .projects { display: flex; flex-direction: column; gap: 1.25rem; }
