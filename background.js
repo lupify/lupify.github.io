@@ -49,9 +49,9 @@
   // and contrast there is paid for in luminance rather than saturation, which
   // is why its tints are light but strongly saturated.
   var PALETTE = {
-    dark:  { pos: [58, 26, 36],    neg: [8, 7, 11],      alpha: 0.26,
+    dark:  { pos: [58, 26, 36],    neg: [8, 7, 11],      alpha: 0.32,
              edge: [0, 0, 0],        strength: EDGE_DARK },
-    light: { pos: [255, 147, 181],  neg: [167, 148, 247], alpha: 0.24,
+    light: { pos: [255, 147, 181],  neg: [167, 148, 247], alpha: 0.29,
              edge: [169, 154, 163],  strength: EDGE_LIGHT }
   };
 
