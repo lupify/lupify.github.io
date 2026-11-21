@@ -78,7 +78,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Carlito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=57">
+<link rel="stylesheet" href="styles.css?v=58">
 </head>
 <body>
 
@@ -184,15 +184,16 @@
           <a class="btn btn--primary" href="mailto:lupified@gmail.com" title="Copy email address" draggable="false">lupified@gmail.com</a>
           <a class="btn" href="mailto:llupinji@ucsc.edu" title="Copy email address" draggable="false">llupinji@ucsc.edu</a>
           <a class="btn" href="resume.html">Resume</a>
+          <button class="btn" type="button" aria-haspopup="dialog"
+                  onclick="document.getElementById('kitten').showModal()">Kitten</button>
         </p>
 
-        <figure class="about__pet">
-          <img class="about__portrait" src="img/clea.webp"
-               alt="Clea, a long-haired black and white cat, lounging on her back on a blue couch."
-               width="600" height="800" loading="lazy" decoding="async"
-               onerror="this.closest('figure').remove()">
-          <figcaption>My cat, Clea.</figcaption>
-        </figure>
+        <!-- Click anywhere, or press Escape, to close. -->
+        <dialog class="kitten" id="kitten" aria-label="Clea" onclick="this.close()">
+          <img src="img/clea.webp" width="600" height="800" loading="lazy" decoding="async"
+               alt="Clea, a long-haired black and white cat, lounging on her back on a blue couch.">
+          <p>Our cat Clea :)</p>
+        </dialog>
       </div>
     </div>
   </div>

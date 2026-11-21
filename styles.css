@@ -468,9 +468,20 @@ footer {
   .about__portrait { max-width: 280px; margin-inline: auto; }
 }
 
-/* Clea, under the About text. */
-.about__pet { margin: 2.25rem 0 0; max-width: 240px; }
-.about__pet figcaption { margin-top: .55rem; font-size: .85rem; color: var(--muted); }
+/* "Kitten" button on the About page: Clea, shown on her own. */
+button.btn { font-family: inherit; line-height: inherit; cursor: pointer; }
+.kitten {
+  padding: 0; border: 0; background: none; color: var(--text);
+  max-width: 92vw; overflow: visible; cursor: pointer; text-align: center;
+}
+.kitten:focus, .kitten:focus-visible { outline: none; }
+.kitten::backdrop { background: rgba(10, 8, 12, .72); }
+.kitten img {
+  display: block; width: auto; height: auto;
+  max-width: min(92vw, 480px); max-height: 78vh;
+  border-radius: 18px; box-shadow: 0 24px 60px -20px rgba(0,0,0,.7);
+}
+.kitten p { margin: .8rem 0 0; font-size: 1rem; color: #f4eef6; }
 
 /* Home page: a small portrait to the left of the intro. */
 .intro {
