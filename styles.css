@@ -468,6 +468,25 @@ footer {
   .about__portrait { max-width: 280px; margin-inline: auto; }
 }
 
+/* Clea, under the About text. */
+.about__pet { margin: 2.25rem 0 0; max-width: 240px; }
+.about__pet figcaption { margin-top: .55rem; font-size: .85rem; color: var(--muted); }
+
+/* Home page: a small portrait to the left of the intro. */
+.intro {
+  display: grid; grid-template-columns: 150px minmax(0, 1fr);
+  gap: clamp(1.25rem, 3.5vw, 2.25rem); align-items: start;
+}
+.intro__portrait {
+  display: block; width: 100%; height: auto; margin-top: .3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  box-shadow: var(--shadow); background: var(--surface);
+}
+@media (max-width: 640px) {
+  .intro { grid-template-columns: 1fr; }
+  .intro__portrait { width: 112px; }
+}
+
 /* Two portraits stacked in the About page's image column. */
 .about__stack { display: flex; flex-direction: column; gap: 1rem; }
 @media (max-width: 760px) {

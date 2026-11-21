@@ -78,7 +78,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Carlito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=56">
+<link rel="stylesheet" href="styles.css?v=57">
 </head>
 <body>
 
@@ -148,9 +148,9 @@
       <!-- Each removes itself rather than showing a broken-image icon if the
            file is missing; the text column then takes the width back. -->
       <div class="about__stack">
-        <img class="about__portrait" src="img/leonard-lupin-jimenez.jpg"
-             alt="Leonard (Lenny) Lupin-Jimenez, smiling, in a redwood forest."
-             width="640" height="792" decoding="async"
+        <img class="about__portrait" src="img/praying-mantis.webp"
+             alt="Leonard (Lenny) Lupin-Jimenez, hands pressed together, with a small praying mantis on his sleeve."
+             width="720" height="960" decoding="async"
              onerror="this.remove()">
         <img class="about__portrait" src="img/bean.webp"
              alt="Leonard (Lenny) Lupin-Jimenez and a friend taking a selfie in a mirrored sculpture."
@@ -185,6 +185,14 @@
           <a class="btn" href="mailto:llupinji@ucsc.edu" title="Copy email address" draggable="false">llupinji@ucsc.edu</a>
           <a class="btn" href="resume.html">Resume</a>
         </p>
+
+        <figure class="about__pet">
+          <img class="about__portrait" src="img/clea.webp"
+               alt="Clea, a long-haired black and white cat, lounging on her back on a blue couch."
+               width="600" height="800" loading="lazy" decoding="async"
+               onerror="this.closest('figure').remove()">
+          <figcaption>My cat, Clea.</figcaption>
+        </figure>
       </div>
     </div>
   </div>
